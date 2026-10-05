@@ -5,14 +5,14 @@
 %define		crates_ver	0.19.0
 
 Summary:	A viewer for git and diff output
-Name:		delta
+Name:		git-delta
 Version:	0.20.1
 Release:	1
 License:	MIT
 Group:		Applications
-Source0:	https://github.com/dandavison/delta/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:	https://github.com/dandavison/delta/archive/%{version}/delta-%{version}.tar.gz
 # Source0-md5:	9d957dee711f45e532e099d0da044854
-Source1:	%{name}-crates-%{crates_ver}.tar.xz
+Source1:	delta-crates-%{crates_ver}.tar.xz
 # Source1-md5:	24871297667c3833082f1bc1d34e993b
 URL:		https://github.com/dandavison/delta
 BuildRequires:	cargo
@@ -28,6 +28,8 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 %{?rust_req}
 Requires:	oniguruma >= 6.9.8
+Provides:	delta = %{version}-%{release}
+Obsoletes:	delta < 0.20.1-2
 ExclusiveArch:	%{rust_arches}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -56,7 +58,7 @@ Delta's main features are:
   between diffs in `log -p` views (`--navigate`)
 
 %prep
-%setup -q -a1
+%setup -q -n delta-%{version} -a1
 
 %{__mv} delta-%{crates_ver}/* .
 sed -i -e 's/@@VERSION@@/%{version}/' Cargo.lock
